@@ -1,0 +1,43 @@
+@startuml
+class Client {
+  +main(args: String[]): void
+}
+
+interface IMediator {
+  +notify(sender: Object, ev: String): void
+}
+
+class ConcreteMediator {
+  -component1: Component1
+  -component2: Component2
+  +ConcreteMediator(component1: Component1, component2: Component2)
+  +notify(sender: Object, ev: String): void
+}
+
+class BaseComponent {
+  #mediator: IMediator
+  +setMediator(mediator: IMediator): void
+}
+
+class Component1 {
+  +operasiA(): void
+  +operasiB(): void
+}
+
+class Component2 {
+  +operasiC(): void
+  +operasiD(): void
+}
+
+Client ..> ConcreteMediator : membuat
+Client ..> Component1 : menjalankan
+Client ..> Component2 : menjalankan
+
+ConcreteMediator ..|> IMediator
+ConcreteMediator --> Component1 : mengatur
+ConcreteMediator --> Component2 : mengatur
+
+Component1 --|> BaseComponent
+Component2 --|> BaseComponent
+BaseComponent --> IMediator : memberi notifikasi
+@enduml
